@@ -6,10 +6,11 @@ services:
       - "3000:3000"
       - "9229:9229"
     volumes:
-      - ./pages:/app/pages
+      - ./src:/app/src
       - ./public:/app/public
       - ./styles:/app/styles
       - ./package.json:/app/package.json
       - ./package-lock.json:/app/package-lock.json
       - ./tsconfig.json:/app/tsconfig.json
       - ./globals.d.ts:/app/globals.d.ts
+      - ./.env.development:/app/.env.development
