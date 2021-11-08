@@ -1,40 +1,65 @@
 import Page from '../components/Page';
-import { Fragment, memo } from 'react';
-import { Field, Form, Formik, useField } from 'formik';
-import loginState from '../state/modules/login';
+import { Fragment, memo, useContext, useEffect } from 'react';
+import { Form, Formik, FormikContext, useField } from 'formik';
+import loginInit, { useUpdateLogin } from '../state/modules/login';
+import { useSelector } from '../state/state-update';
+import { createContext, useContextSelector } from 'use-context-selector';
+import { formikSyncContext } from '../state/formik-sync';
+import FormikSyncProvider from '../components/FormikSyncProvider';
 
 const EmailValue = memo(() => {
-  const [input] = useField('email');
   console.log('email value render')
-  const emailValue = input.value;
+  const emailValue = useSelector(([state]) => state.login.email);
   return <div>{emailValue}</div>
 })
 const Email = () => {
-  console.log('email box render')
+  const handleChange = useContextSelector(formikSyncContext, ([formik]) => {
+    return formik.handleChange
+  });
+  const value = useContextSelector(formikSyncContext, ([formik]) => formik.values.email);
+  const onChange = handleChange('email');
+  // const [emailInput] = useField('email');
+  console.log('email box render', value, onChange)
   return (
     <Fragment>
       <EmailValue />
-      <Field type="text" name="email" />
+      <input
+        type="text"
+        {...{value, onChange}}
+      />
     </Fragment>
   )
 }
 const Password = () => {
   console.log('password render')
+  const handleChange = useContextSelector(formikSyncContext, ([formik]) => {
+    return formik.handleChange
+  });
+  const value = useContextSelector(formikSyncContext, ([formik]) => formik.values.password);
+  const onChange = handleChange('password');
+
+  // const [passwordInput] = useField('password');
   return (
-    <Field type="text" name="password" />
+    <input
+      type="text"
+      {...{value, onChange}}
+    />
   )
 }
+
 export default function Login() {
   return (
     <Page>
       <Formik
-        initialValues={loginState}
+        initialValues={loginInit}
         onSubmit={console.log}
       >
-        <Form>
-          <Email />
-          <Password />
-        </Form>
+        <FormikSyncProvider>
+          <Form>
+            <Email />
+            <Password />
+          </Form>
+        </FormikSyncProvider>
       </Formik>
     </Page>
   )

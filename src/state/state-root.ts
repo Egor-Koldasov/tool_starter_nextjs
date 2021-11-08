@@ -1,15 +1,16 @@
 import { Dispatch, SetStateAction } from "react";
 import { Context, createContext } from 'use-context-selector';
-import loginState from "./modules/login";
+import loginInit from "./modules/login";
 
 export const initState = {
-  login: loginState,
+  login: loginInit,
 };
 
 export type RootState = typeof initState;
+export type SetRootState = Dispatch<SetStateAction<RootState>>
 export type RootContextValue = [
   state: RootState,
-  setState: Dispatch<SetStateAction<RootState>>
+  setState: SetRootState
 ]
 export type RootContext = Context<RootContextValue | null>
 
