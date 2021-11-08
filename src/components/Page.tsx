@@ -1,8 +1,8 @@
-import { Component, ReactElement } from "react";
+import { Component, ReactNode } from "react";
 import Navigation from "./Navigation";
 
 interface PageProps {
-  children: ReactElement
+  children: ReactNode
 }
 export default class Page extends Component<PageProps> {
   render() {
