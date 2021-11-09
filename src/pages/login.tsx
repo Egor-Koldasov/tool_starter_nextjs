@@ -1,65 +1,35 @@
-import Page from '../components/Page';
-import { Fragment, memo, useContext, useEffect } from 'react';
-import { Form, Formik, FormikContext, useField } from 'formik';
-import loginInit, { useUpdateLogin } from '../state/modules/login';
-import { useSelector } from '../state/state-update';
-import { createContext, useContextSelector } from 'use-context-selector';
-import { formikSyncContext } from '../state/formik-sync';
-import FormikSyncProvider from '../components/FormikSyncProvider';
+import { Form, Formik } from 'formik';
+import Head from 'next/head';
+import styled from 'styled-components';
+import Page from '../components/layout/Page';
+import loginInit from '../state/modules/login';
+import SubmitButton from '../components/form/SubmitButton';
+import LabeledInput from '../components/form/LabeledInput';
 
-const EmailValue = memo(() => {
-  console.log('email value render')
-  const emailValue = useSelector(([state]) => state.login.email);
-  return <div>{emailValue}</div>
-})
-const Email = () => {
-  const handleChange = useContextSelector(formikSyncContext, ([formik]) => {
-    return formik.handleChange
-  });
-  const value = useContextSelector(formikSyncContext, ([formik]) => formik.values.email);
-  const onChange = handleChange('email');
-  // const [emailInput] = useField('email');
-  console.log('email box render', value, onChange)
-  return (
-    <Fragment>
-      <EmailValue />
-      <input
-        type="text"
-        {...{value, onChange}}
-      />
-    </Fragment>
-  )
+const ScreenBP = {
+  md: 576,
 }
-const Password = () => {
-  console.log('password render')
-  const handleChange = useContextSelector(formikSyncContext, ([formik]) => {
-    return formik.handleChange
-  });
-  const value = useContextSelector(formikSyncContext, ([formik]) => formik.values.password);
-  const onChange = handleChange('password');
-
-  // const [passwordInput] = useField('password');
-  return (
-    <input
-      type="text"
-      {...{value, onChange}}
-    />
-  )
-}
+const LoginForm = styled(Form)`
+  && {
+    max-width: ${ScreenBP.md}px
+  }
+`;
 
 export default function Login() {
   return (
     <Page>
+      <Head>
+        <title>Login</title>
+      </Head>
       <Formik
         initialValues={loginInit}
         onSubmit={console.log}
       >
-        <FormikSyncProvider>
-          <Form>
-            <Email />
-            <Password />
-          </Form>
-        </FormikSyncProvider>
+        <LoginForm className="container py-3">
+          <LabeledInput name="email" />
+          <LabeledInput name="password" />
+          <SubmitButton />
+        </LoginForm>
       </Formik>
     </Page>
   )

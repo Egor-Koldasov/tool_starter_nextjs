@@ -9,7 +9,7 @@ export default class Page extends Component<PageProps> {
     return (
       <div className="page">
         <Navigation />
-        {this.props.children}
+        <div>{this.props.children}</div>
       </div>
     )
   }

@@ -16,7 +16,9 @@ RUN npm install
 
 # Bundle app source
 COPY package.json package.json
+RUN true
 COPY package-lock.json package-lock.json
+RUN true
 COPY tsconfig.json tsconfig.json
 
 CMD [ "npm", "run", "dev" ]

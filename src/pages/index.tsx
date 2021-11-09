@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { ME } from '../queries/auth'
 import styles from '../../styles/Home.module.scss'
-import Page from '../components/Page'
+import Page from '../components/layout/Page'
 
 export default function Home() {
   const {data} = useQuery(ME);

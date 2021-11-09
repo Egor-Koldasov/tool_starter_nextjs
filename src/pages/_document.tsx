@@ -1,17 +1,20 @@
-import Document, { DocumentProps, DocumentContext } from "next/document";
+import Document, { DocumentProps, DocumentContext, Html, Head, NextScript, Main } from "next/document";
 import { getDataFromTree } from "@apollo/client/react/ssr";
 import { getApolloClient } from "../lib/apolloClient";
-import { NEXT_DATA } from "next/dist/next-server/lib/utils";
+import { NEXT_DATA } from "next/dist/shared/lib/utils";
+import { ServerStyleSheet } from 'styled-components';
+import { ReactNode } from "react";
 
-interface ApolloDocumentProps extends DocumentProps {
+interface ExtendedDocumentProps extends DocumentProps {
   apolloState: StringKeyObject
+  styleTags: ReactNode
 }
 interface ApolloNextData extends NEXT_DATA {
   apolloState: StringKeyObject,
 }
 
-class DocumentWithApollo extends Document<ApolloDocumentProps> {
-  constructor(props: ApolloDocumentProps) {
+class DocumentWithApollo extends Document<ExtendedDocumentProps> {
+  constructor(props: ExtendedDocumentProps) {
     super(props);
     const { __NEXT_DATA__, apolloState } = props;
     (__NEXT_DATA__ as ApolloNextData).apolloState = apolloState;
@@ -19,11 +22,27 @@ class DocumentWithApollo extends Document<ApolloDocumentProps> {
 
   static async getInitialProps(ctx: DocumentContext) {
     const apolloClient = getApolloClient();
+    const sheet = new ServerStyleSheet();
     const initialProps = await Document.getInitialProps(ctx);
     // this renders twice, maybe consider forking and extending next if this gives noticable improvement
-    await getDataFromTree(<ctx.AppTree pageProps={{}} />);
+    await getDataFromTree(sheet.collectStyles(<ctx.AppTree pageProps={{}} />));
     const apolloState = apolloClient.extract();
-    return { ...initialProps, apolloState };
+    const styleTags = sheet.getStyleElement();
+    return { ...initialProps, apolloState, styleTags };
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head>
+          {this.props.styleTags}
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
   }
 }
 

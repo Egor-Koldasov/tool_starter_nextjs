@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { createContext, useContextSelector } from 'use-context-selector';
-import Page from '../components/Page';
+import Page from '../components/layout/Page';
 import RootProvider from '../components/RootProvider';
 import { rootContext } from '../state/state-root';
 

@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import { Context, createContext } from 'use-context-selector';
 import loginInit from "./modules/login";
+import { navInit } from "./modules/nav";
 
 export const initState = {
   login: loginInit,
+  nav: navInit,
 };
 
 export type RootState = typeof initState;

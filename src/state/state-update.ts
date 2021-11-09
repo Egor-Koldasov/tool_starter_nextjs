@@ -15,6 +15,10 @@ export const useSelector = <Selection>(selector: ((state: RootContextValue) => S
   return useContextSelector(rootContext, nullableSelector);
 }
 
+export const useSelectorPath = <Path extends Paths<RootState>>(path: Path): Get<RootState, Path> => {
+  return useSelector(([state]) => get(state, path));
+}
+
 function mergeRootState(setState: SetRootState, update: PartialDeep<RootState>): void {
   return setState((state) => mergeDeepRight(state, update));
 }
