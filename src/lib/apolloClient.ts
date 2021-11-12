@@ -31,11 +31,12 @@ const makeApolloClient = () => {
   const link = new HttpLink({
     uri: getGraphqlUrl(),
     fetch: customFetch,
+    credentials: 'include',
   });
   const apolloClient = new ApolloClient({
     ssrMode: true,
     link,
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
   });
   // testClient(apolloClient)
   return apolloClient;
