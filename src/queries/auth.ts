@@ -52,5 +52,5 @@ const mapCachePath = <CachePath extends Paths<Query>, Response extends Mutation 
 
 export const useLogin = () => useMutation<{login: AuthResponse}, MutationLoginArgs>(LOGIN, {
   // update: updateCache('me', (res) => res.data?.login.me, gql`fragment on User {id, email}`)
-  update: mapCachePath('me', 'login.me', gql`fragment on User {id, email}`)
+  update: mapCachePath('me', 'login.me', gql`fragment Me on User {id, email}`)
 })
