@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { mergeDeepRight } from "ramda";
+import { ReactNode, useState } from "react";
 import { initState, rootContext } from "../state/state-root";
+import { RootStateUpdate } from "../state/state-update";
 
-const RootProvider = ({ children }: any) => {
-  const [state, setState] = useState(initState);
+export type RootProviderProps = {
+  initState?: RootStateUpdate
+  children?: ReactNode
+}
+
+const RootProvider = (props: RootProviderProps) => {
+  const initStateLoaded = props.initState ? mergeDeepRight(initState, props.initState) : initState;
+  const [state, setState] = useState(initStateLoaded);
   return (
     <rootContext.Provider value={[state, setState]}>
-      {children}
+      {props.children}
     </rootContext.Provider>
   );
 };

@@ -10,12 +10,11 @@
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@apollo/client": "^3.4.16",
     "@loadable/component": "^5.14.1",
+    "axios": "^0.24.0",
     "bootstrap": "^5.1.3",
     "classnames": "^2.3.1",
     "formik": "^2.2.9",
-    "graphql": "^15.7.2",
     "next": "^11.1.2",
     "ramda": "^0.27.1",
     "react": "^17.0.2",
@@ -26,12 +25,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.2.2",
-    "@graphql-codegen/introspection": "2.1.0",
-    "@graphql-codegen/typescript": "^2.3.1",
-    "@graphql-codegen/typescript-operations": "^2.2.0",
-    "@graphql-codegen/typescript-react-apollo": "3.2.1",
-    "@types/graphql": "^14.5.0",
     "@types/loadable__component": "^5.13.3",
     "@types/node": "^16.11.7",
     "@types/ramda": "^0.27.46",
@@ -39,10 +32,7 @@
     "@types/react-loadable": "^5.5.4",
     "@types/styled-components": "^5.1.15",
     "@types/webpack-env": "^1.16.3",
-    "apollo": "^2.33.8",
     "babel-plugin-styled-components": "^1.13.3",
-    "graphql-cli": "^4.1.0",
-    "graphql-cli-generate-fragments": "^1.4.1",
     "sass": "^1.32.8",
     "type-fest": "^2.5.2",
     "typescript": "^4.2.2"

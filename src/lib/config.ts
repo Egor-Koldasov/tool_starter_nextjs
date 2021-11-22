@@ -1,17 +1,12 @@
 import { isServerEnvironment } from "./environment";
 
-const graphqlServerHost = process.env.GRAPHQL_HOST || 'graphql';
-const graphqlClientHost = process.env.NEXT_PUBLIC_GRAPHQL_HOST || 'localhost';
+const apiServerHost = process.env.API_HOST || 'api';
+const apilClientHost = process.env.NEXT_PUBLIC_API_HOST || 'localhost';
 const isServer = isServerEnvironment();
 
-const logs = {
-  graphqlRequests: false,
-}
 const config = {
-  graphqlSsl: process.env.NEXT_PUBLIC_GRAPHQL_SSL === 'FALSE' ? false : true,
-  graphqlHost: isServer ? graphqlServerHost : graphqlClientHost,
-  graphqlPort: parseInt(String(process.env.NEXT_PUBLIC_GRAPHQL_PORT)) || 4000,
-  graphqlPath: process.env.NEXT_PUBLIC_GRAPHQL_PATH || '/graphql',
-  logs,
+  apiSsl: process.env.NEXT_PUBLIC_API_SSL === 'FALSE' ? false : true,
+  apiHost: isServer ? apiServerHost : apilClientHost,
+  apiPort: parseInt(String(process.env.NEXT_PUBLIC_API_PORT)) || 4000,
 };
 export default config;

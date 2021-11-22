@@ -1,7 +1,11 @@
-const state = {
-  loaded: false,
-  username: '',
-  password: '',
+const profileInit = {
+  email: '',
+  id: '',
 };
 
-export default state;
+export type User = {
+  email: string,
+  id: number,
+}
+
+export default profileInit;

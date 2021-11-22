@@ -1,12 +1,11 @@
-import { useQuery } from '@apollo/client'
 import Head from 'next/head'
 import Link from 'next/link'
-import { ME } from '../queries/auth'
 import styles from '../../styles/Home.module.scss'
 import Page from '../components/layout/Page'
+import { useSelectorPath } from '../state/state-update'
 
 export default function Home() {
-  const {data} = useQuery(ME);
+  const user = useSelectorPath('me.data');
 
   return (
     <Page>
@@ -27,12 +26,12 @@ export default function Home() {
           </p>
 
           <div className={styles.grid}>
-            {(!data?.me) && (
+            {(!user) && (
               <Link href="/login">
                 Login &rarr;
               </Link>
             )}
-            {(data?.me) && (
+            {(user) && (
               <Link href="/profile">
                 Profile &rarr;
               </Link>
