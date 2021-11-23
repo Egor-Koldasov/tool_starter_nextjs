@@ -1,8 +1,14 @@
 import { Get } from "type-fest";
 import { Paths } from "./Paths";
-import { SplitUnion } from "./SplitUnion";
-import { UnionToObject } from "./UnionToObject";
+import { UnionToTuple } from "./ToTuple";
 
-export type FilteredPaths <Obj extends object, Filter> = {
-  [K in keyof UnionToObject<Paths<Obj>>]: K extends string ? SplitUnion<Get<Obj, K> > extends SplitUnion<Filter> ? K : never : never
-}[keyof UnionToObject<Paths<Obj>>]
+export type FilterPathsTuple<Obj extends object, Filter, PathTuple extends any[]> = {
+  [K in keyof PathTuple]:
+    PathTuple[K] extends string ?
+      UnionToTuple<Get<Obj, PathTuple[K]>> extends UnionToTuple<Filter> ?
+        PathTuple[K] :
+        never :
+      never
+}[number]
+
+export type FilteredPaths <Obj extends object, Filter> = FilterPathsTuple<Obj, Filter, UnionToTuple<Paths<Obj>>>
