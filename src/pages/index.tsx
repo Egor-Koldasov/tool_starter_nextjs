@@ -5,7 +5,7 @@ import Page from '../components/layout/Page'
 import { useSelectorPath } from '../state/state-update'
 
 export default function Home() {
-  const user = useSelectorPath('me.data');
+  const user = useSelectorPath('resource.me.data');
 
   return (
     <Page>

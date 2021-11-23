@@ -4,7 +4,7 @@ import { Opaque, SetOptional } from "type-fest";
 export type NotPartialTag = Opaque<{}, 'not-partial'>;
 export type NotPartial<Type extends {}> = Type & NotPartialTag;
 export type ExtractNotPartial<Type> =
-  Type extends NotPartialTag ? SetOptional<Type, keyof NotPartialTag> :
+  Type extends NotPartialTag ? Omit<Type, keyof NotPartialTag> :
     Type extends object ? {[KeyType in keyof Type]: ExtractNotPartial<Type[KeyType]>} :
     Type
 

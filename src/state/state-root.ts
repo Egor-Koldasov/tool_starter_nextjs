@@ -3,12 +3,12 @@ import { Context, createContext } from 'use-context-selector';
 import { ExtractNotPartial } from "../lib/types/NotPartial";
 import loginInit from "./modules/login";
 import { navInit } from "./modules/nav";
-import { meInit } from "./modules/user/me";
+import { resourceInit } from "./modules/resource";
 
 export const initState = {
   login: loginInit,
   nav: navInit,
-  me: meInit,
+  resource: resourceInit,
 };
 
 export type RootStateSchema = typeof initState;

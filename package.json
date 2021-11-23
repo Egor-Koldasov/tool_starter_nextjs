@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev & yarn ts:watch",
     "build": "next build",
     "start": "next start",
     "rebuild": "docker-compose stop nextjs && docker-compose up -d --build nextjs",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "ts": "tsc --noEmit --incremental --preserveWatchOutput",
+    "ts:watch": "yarn ts --watch"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
