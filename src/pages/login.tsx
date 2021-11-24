@@ -11,6 +11,7 @@ import { getMe } from '../state/modules/api/me';
 import { useSelectorPath } from '../state/state-update';
 import { PageProps } from './_app';
 import { useLogin } from '../state/modules/api/login';
+import { getErrorMessage } from '../lib/modules/query';
 
 const ScreenBP = {
   md: 576,
@@ -33,8 +34,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 
 export default function Login(props: PageProps) {
   const email = useSelectorPath('api.me.data.email');
-  const error = useSelectorPath('api.me.query.error');
-  const loading = useSelectorPath('api.me.query.loading');
+  const loading = useSelectorPath('api.login.query.loading');
+  const error = getErrorMessage(useSelectorPath('api.login.query.error'));
   const login = useLogin();
   return (
     <Page>
@@ -44,10 +45,7 @@ export default function Login(props: PageProps) {
       <div>{email}</div>
       <Formik
         initialValues={loginInit}
-        onSubmit={(values) => {
-          console.log({ values });
-          login(values);
-        }}
+        onSubmit={login}
         validationSchema={schema}
       >
         <LoginForm className="container py-3">

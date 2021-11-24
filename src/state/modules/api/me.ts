@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import { number, object, string } from "yup";
-import { apiClient, apiUrl } from "../../../lib/apiClient";
+import { callApi } from "../../../lib/apiClient";
 import { queryInit, useQuery, ApiStateSchema } from "../../../lib/modules/query";
 
 export type User = {
@@ -23,9 +23,8 @@ export const meSchema = object({
 }).required()
 
 export const getMe = async (ctx?: GetServerSidePropsContext) => {
-  const result = await apiClient(ctx).get(apiUrl('me'));
-  const data = await meSchema.validate(result.data);
-  return data.user;
+  const result = await callApi({path: 'me', ctx, schema: meSchema})
+  return result.user;
 }
 export const useMe = () => useQuery({path: 'api.me', query: getMe});
 

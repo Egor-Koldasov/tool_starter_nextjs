@@ -2,8 +2,9 @@ import { ComponentType } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
-import { useSelectorPath, useUpdateModule } from "../../state/state-update";
+import { useSelectorPath } from "../../state/state-update";
 import { useToggleNav } from "../../state/modules/nav";
+import { useLogout } from "../../state/modules/api/logout";
 
 
 const useIsActive = () => {
@@ -49,7 +50,27 @@ const Navigation: ComponentType = () => {
   );
 }
 
+const Logout = () => {
+  const logout = useLogout();
+  return (
+    <span
+      className={cn("btn btn-link text-light d-none d-md-inline-block me-1")}
+      onClick={logout}
+    >
+      Logout
+    </span>
+  );
+}
+
 const AuthNav = () => {
+  const user = useSelectorPath('api.me.data');
+  if (user) {
+    return (
+      <div className="ms-auto">
+        <Logout />
+      </div>
+    );
+  }
   return (
     <div className="ms-auto">
       <Link href="/login"><a className={cn("btn btn-link text-light d-none d-md-inline-block me-1")}>Login</a></Link>
