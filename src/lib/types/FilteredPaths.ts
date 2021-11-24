@@ -1,11 +1,11 @@
 import { Get } from "type-fest";
 import { Paths } from "./Paths";
-import { UnionToTuple } from "./ToTuple";
+import { DeepUnionToTuple, UnionToTuple } from "./UnionToTuple";
 
 export type FilterPathsTuple<Obj extends object, Filter, PathTuple extends any[]> = {
   [K in keyof PathTuple]:
     PathTuple[K] extends string ?
-      UnionToTuple<Get<Obj, PathTuple[K]>> extends UnionToTuple<Filter> ?
+      DeepUnionToTuple<Get<Obj, PathTuple[K]>> extends DeepUnionToTuple<Filter> ?
         PathTuple[K] :
         never :
       never

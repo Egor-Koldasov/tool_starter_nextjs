@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import { number, object, string } from "yup";
 import { apiClient, apiUrl } from "../../../lib/apiClient";
-import { queryInit, ApiState, useQuery, ApiStateSchema } from "../../../lib/modules/query";
+import { queryInit, useQuery, ApiStateSchema } from "../../../lib/modules/query";
 
 export type User = {
   email: string,
@@ -27,5 +27,5 @@ export const getMe = async (ctx?: GetServerSidePropsContext) => {
   const data = await meSchema.validate(result.data);
   return data.user;
 }
-export const useMe = () => useQuery({path: 'resource.me', query: getMe});
+export const useMe = () => useQuery({path: 'api.me', query: getMe});
 

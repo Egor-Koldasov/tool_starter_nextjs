@@ -11,5 +11,3 @@ export const loginInit: LoginState = {
 }
 
 export const useUpdateLogin = () => useUpdateModule('login');
-
-export default loginInit;

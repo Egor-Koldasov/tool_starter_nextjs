@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 import { Context, createContext } from 'use-context-selector';
 import { ExtractNotPartial } from "../lib/types/NotPartial";
-import loginInit from "./modules/login";
+import {loginInit} from "./modules/login";
 import { navInit } from "./modules/nav";
-import { resourceInit } from "./modules/resource";
+import { resourceInit } from "./modules/api";
 
 export const initState = {
   login: loginInit,
   nav: navInit,
-  resource: resourceInit,
+  api: resourceInit,
 };
 
 export type RootStateSchema = typeof initState;

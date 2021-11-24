@@ -13,7 +13,15 @@ type ExtractOne<Union> = ExtractParm<UnionToSect<UnionToParm<Union>>>;
 
 export type UnionToTuple<Union> = ToTupleRec<Union, []>;
 
-type ToTupleRec<Union, Rslt extends any[]> = 
-    SpliceOne<Union> extends never ? [ExtractOne<Union>, ...Rslt]
-    : ToTupleRec<SpliceOne<Union>, [ExtractOne<Union>, ...Rslt]>
-;
+type ToTupleRec<Union, Rslt extends any[]> =
+  SpliceOne<Union> extends never ? [ExtractOne<Union>, ...Rslt]
+  : ToTupleRec<SpliceOne<Union>, [ExtractOne<Union>, ...Rslt]>
+  ;
+
+export type DeepUnionToTuple<Union> =
+  UnionToTuple<
+    Union extends object ?
+      {[K in keyof Union]: DeepUnionToTuple<Union[K]>} :
+      Union
+  >
+

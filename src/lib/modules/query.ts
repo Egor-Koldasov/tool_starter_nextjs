@@ -3,6 +3,7 @@ import { RootState } from "../../state/state-root"
 import { useUpdateModule } from "../../state/state-update"
 import { FilteredPaths } from "../types/FilteredPaths"
 import { ExtractNotPartial, NotPartial } from "../types/NotPartial";
+import { DeepUnionToTuple, UnionToTuple } from "../types/UnionToTuple";
 
 export interface QuerySchema {
   loading: boolean
@@ -11,11 +12,13 @@ export interface QuerySchema {
 }
 type Query = ExtractNotPartial<QuerySchema>
 export type Data = object | null;
-export interface ApiStateSchema<QueryData extends object> {
+
+// Use "Schema" types for initial state, use regular types for anything else
+export interface ApiStateSchema<QueryData> {
   query: QuerySchema
   data: NotPartial<QueryData> | null
 }
-export type ApiState<QueryData extends object> = ExtractNotPartial<ApiStateSchema<QueryData>>
+export type ApiState<QueryData> = ExtractNotPartial<ApiStateSchema<QueryData>>
 
 export const queryInit = () => ({
   query: {
@@ -28,15 +31,18 @@ export const queryInit = () => ({
 
 export type QueryPaths = FilteredPaths<RootState, Query>
 export type DataPaths = FilteredPaths<RootState, Data>
-export type ResourcePaths = FilteredPaths<RootState, ApiState<any>>
+export type ResourcePaths = FilteredPaths<RootState, ApiState<object>>
 
-type ResourcePathSingle = ResourcePaths
 type ResourcePathSplit = {queryPath: QueryPaths, dataPath: DataPaths}
-type ResourcePath = ResourcePathSingle | ResourcePathSplit;
+type ResourcePath = ResourcePaths | ResourcePathSplit;
+type SplitResourcePath<Path extends ResourcePath> =
+  Path extends ResourcePathSplit ? ResourcePathSplit :
+    Path extends ResourcePaths ? {queryPath: `${Path}.query`, dataPath: `${Path}.data`} :
+      never;
 
 const splitResourcePath = (path: ResourcePath): ResourcePathSplit => {
-  if (typeof path === 'object') return path;
-  return {queryPath: `${path}.query`, dataPath: `${path}.data`}
+  if (typeof path === 'string') return {queryPath: `${path}.query`, dataPath: `${path}.data`};
+  return path;
 }
 
 type UseQueryOptions<QueryPath extends QueryPaths, DataPath extends DataPaths> = {
@@ -68,5 +74,4 @@ export const useQuery =
           updateQuery({error: wrapError(error), loading: false});
         }
       }
-      return {updateQuery, updateData}
   }
