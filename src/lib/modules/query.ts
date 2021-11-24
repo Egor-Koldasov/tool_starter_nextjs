@@ -3,7 +3,6 @@ import { RootState } from "../../state/state-root"
 import { useUpdateModule } from "../../state/state-update"
 import { FilteredPaths } from "../types/FilteredPaths"
 import { ExtractNotPartial, NotPartial } from "../types/NotPartial";
-import { DeepUnionToTuple, UnionToTuple } from "../types/UnionToTuple";
 
 export interface QuerySchema {
   loading: boolean
@@ -45,9 +44,9 @@ const splitResourcePath = (path: ResourcePath): ResourcePathSplit => {
   return path;
 }
 
-type UseQueryOptions<QueryPath extends QueryPaths, DataPath extends DataPaths> = {
+type UseQueryOptions<DataPath extends DataPaths, QueryArgs extends any[]> = {
   path: ResourcePath
-  query: () => Promise<Get<RootState, DataPath>>
+  query: (...args: QueryArgs) => Promise<Get<RootState, DataPath>>
 }
 
 const wrapError = (error: unknown): Error => {
@@ -59,15 +58,16 @@ export const useQuery =
   <
     QueryPath extends QueryPaths,
     DataPath extends DataPaths,
+    QueryArgs extends any[],
   >
-  (options: UseQueryOptions<QueryPath, DataPath>) => {
+  (options: UseQueryOptions<DataPath, QueryArgs>) => {
       const path = splitResourcePath(options.path);
       const updateQuery = useUpdateModule<QueryPaths, Get<RootState, QueryPaths>>(path.queryPath);
       const updateData = useUpdateModule<DataPaths, Get<RootState, DataPaths>>(path.dataPath);
-      return async () => {
+      return async (...args: QueryArgs) => {
         try {
           updateQuery({loading: true});
-          const data = await options.query();
+          const data = await options.query(...args);
           updateQuery({loading: false, loaded: true, error: null});
           updateData(data);
         } catch (error) {
