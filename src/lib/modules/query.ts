@@ -2,6 +2,7 @@ import { Get } from "type-fest"
 import { RootState } from "../../state/state-root"
 import { useUpdateModule } from "../../state/state-update"
 import { isApiError } from "../apiClient";
+import { logError } from "../log";
 import { FilteredPaths } from "../types/FilteredPaths"
 import { ExtractNotPartial, NotPartial } from "../types/NotPartial";
 
@@ -86,8 +87,10 @@ export const useQuery =
           updateQuery({loading: true});
           const data = await options.query(...args);
           updateQuery({loading: false, loaded: true, error: null});
-          if (updateData && data) updateData(data); // https://github.com/microsoft/TypeScript/issues/46915
+          console.log('data', data)
+          if (updateData && data !== undefined) updateData(data); // https://github.com/microsoft/TypeScript/issues/46915
         } catch (error) {
+          logError(error);
           updateQuery({error: wrapError(error), loading: false});
         }
       }

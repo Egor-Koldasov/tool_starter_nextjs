@@ -15,8 +15,5 @@ export const loginQuery =  async (data: LoginState) => {
   return result.user;
 }
 
-export const useLogin = () => {
-  const query = useQuery({path: {queryPath: 'api.login.query', dataPath: 'api.me.data'}, query: loginQuery})
-  const data = useSelectorPath('login');
-  return () => query(data);
-}
+export const useLogin = () =>
+  useQuery({path: {queryPath: 'api.login.query', dataPath: 'api.me.data'}, query: loginQuery})

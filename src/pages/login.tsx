@@ -1,4 +1,3 @@
-import { Form, Formik } from 'formik';
 import Head from 'next/head';
 import styled from 'styled-components';
 import * as yup from 'yup';
@@ -12,11 +11,12 @@ import { useSelectorPath } from '../state/state-update';
 import { PageProps } from './_app';
 import { useLogin } from '../state/modules/api/login';
 import { getErrorMessage } from '../lib/modules/query';
+import Form, { DefaultForm } from '../components/Form';
 
 const ScreenBP = {
   md: 576,
-}
-const LoginForm = styled(Form)`
+} as const
+const LoginForm = styled(DefaultForm)`
   && {
     max-width: ${ScreenBP.md}px
   }
@@ -43,18 +43,17 @@ export default function Login(props: PageProps) {
         <title>Login</title>
       </Head>
       <div>{email}</div>
-      <Formik
+      <Form
         initialValues={loginInit}
         onSubmit={login}
         validationSchema={schema}
+        FormEl={LoginForm}
       >
-        <LoginForm className="container py-3">
-          <LabeledInput name="email" />
-          <LabeledInput name="password" inputProps={{ type: 'password' }} />
-          {error && <div className="invalid-feedback d-flex">{String(error)}</div>}
-          <SubmitButton loading={loading} />
-        </LoginForm>
-      </Formik>
+        <LabeledInput name="email" />
+        <LabeledInput name="password" inputProps={{ type: 'password' }} />
+        {error && <div className="invalid-feedback d-flex">{String(error)}</div>}
+        <SubmitButton loading={loading} />
+      </Form>
     </Page>
   )
 }

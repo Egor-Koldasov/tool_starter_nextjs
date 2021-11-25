@@ -54,7 +54,7 @@ const Logout = () => {
   const logout = useLogout();
   return (
     <span
-      className={cn("btn btn-link text-light d-none d-md-inline-block me-1")}
+      className={cn("btn btn-link text-light me-1")}
       onClick={logout}
     >
       Logout
