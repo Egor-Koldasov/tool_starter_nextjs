@@ -1,10 +1,12 @@
 import classNames from "classnames";
-import { Formik, FormikConfig, FormikValues, Form as FormikForm } from "formik";
+import { Formik, FormikConfig, FormikValues, Form as FormikForm, FormikHelpers } from "formik";
 import { ComponentType, HTMLProps, PropsWithChildren, Ref } from "react";
+import { Data, QueryHookResult } from "../lib/modules/query";
 
-export type FormProps<Values extends FormikValues> = FormikConfig<Values> & PropsWithChildren<{
+export type FormProps<Values extends FormikValues> = Omit<FormikConfig<Values>, 'onSubmit'> & PropsWithChildren<{
   FormEl?: ComponentType
   resetOnSubmit?: boolean
+  onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promise<QueryHookResult<Data>>
 }>
 
 
@@ -20,9 +22,9 @@ export default function Form<Values>(props: FormProps<Values>) {
   return (
     <Formik
       {...props}
-      onSubmit={(...args) => {
-        props.onSubmit(...args);
-        if (props.resetOnSubmit !== false) args[1].resetForm();
+      onSubmit={async (...args) => {
+        const res = await props.onSubmit(...args);
+        if (res.success && props.resetOnSubmit !== false) args[1].resetForm();
       }}
     >
       <FormEl>

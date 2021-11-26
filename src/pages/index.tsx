@@ -1,55 +1,28 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import styles from '../../styles/Home.module.scss'
+import styled from 'styled-components'
 import Page from '../components/layout/Page'
-import { useSelectorPath } from '../state/state-update'
+import { parentHeight } from '../lib/styles/parentHeight'
+
+export const ContainerStyled = styled.div.attrs(() => {className: 'container'})`
+  text-align: center;
+  h1 {
+    position: relative; // https://stackoverflow.com/a/10018430/12148259
+    top: 20%;
+  }
+`
 
 export default function Home() {
-  const user = useSelectorPath('api.me.data');
-
   return (
     <Page>
-      <div className={styles.container}>
-        <Head>
-          <title>Create Next App</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-
-        <main className={styles.main}>
-          <h1 className={styles.title}>
-            Welcome to <a href="https://nextjs.org">Next.js!</a>
-          </h1>
-
-          <p className={styles.description}>
-            Get started by editing{' '}
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-
-          <div className={styles.grid}>
-            {(!user) && (
-              <Link href="/login">
-                Login &rarr;
-              </Link>
-            )}
-            {(user) && (
-              <Link href="/profile">
-                Profile &rarr;
-              </Link>
-            )}
-          </div>
-        </main>
-
-        <footer className={styles.footer}>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by{' '}
-            <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-          </a>
-        </footer>
-      </div>
+      <Head>
+        <title>Tool Starter</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <ContainerStyled>
+        <h1 className="display-1">
+          Welcome to the Tool Starter!
+        </h1>
+      </ContainerStyled>
     </Page>
   )
 }

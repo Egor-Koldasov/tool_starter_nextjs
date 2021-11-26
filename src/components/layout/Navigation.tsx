@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { useSelectorPath } from "../../state/state-update";
 import { useToggleNav } from "../../state/modules/nav";
 import { useLogout } from "../../state/modules/api/logout";
+import styled from "styled-components";
 
 
 const useIsActive = () => {
@@ -26,11 +27,19 @@ const NavItem: ComponentType<NavItemProps> = (props) => {
     </li>
   );
 }
-const Navigation: ComponentType = () => {
+
+export const NavigationStyled = styled.div`
+
+`
+
+export type NavigationProps = {
+  className?: string
+}
+const Navigation = (props: NavigationProps) => {
   const toggleNav = useToggleNav();
   const navOpen = useSelectorPath('nav.open');
   return (
-    <div className="navbar container-fluid navbar-dark bg-primary">
+    <NavigationStyled className={cn("navbar container-fluid navbar-dark bg-primary", props.className)}>
       <button
         className="navbar-toggler"
         type="button"
@@ -42,11 +51,11 @@ const Navigation: ComponentType = () => {
       <AuthNav />
       <div className={cn("collapse navbar-collapse", {show: navOpen})} id="navbarToggler">
         <ul className="navbar-nav">
-          <NavItem href="/">Profile</NavItem>
+          <NavItem href="/profile">Profile</NavItem>
           <NavItem href="/">About</NavItem>
         </ul>
       </div>
-    </div>
+    </NavigationStyled>
   );
 }
 

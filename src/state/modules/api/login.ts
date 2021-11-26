@@ -1,6 +1,6 @@
+import { useRouter } from "next/router";
 import { callApi } from "../../../lib/apiClient";
 import { ApiStateSchema, queryInit, useQuery } from "../../../lib/modules/query"
-import { useSelectorPath } from "../../state-update";
 import { LoginState } from "../login";
 import { meSchema } from "./me";
 
@@ -15,5 +15,12 @@ export const loginQuery =  async (data: LoginState) => {
   return result.user;
 }
 
-export const useLogin = () =>
-  useQuery({path: {queryPath: 'api.login.query', dataPath: 'api.me.data'}, query: loginQuery})
+export const useLogin = () => {
+  const login = useQuery({path: {queryPath: 'api.login.query', dataPath: 'api.me.data'}, query: loginQuery});
+  const router = useRouter();
+  return async (values: LoginState) => {
+    const res = await login(values);
+    if (res.success) await router.push('/profile');
+    return res;
+  }
+}

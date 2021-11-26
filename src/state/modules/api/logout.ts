@@ -1,3 +1,4 @@
+import router from "next/router";
 import { callApi } from "../../../lib/apiClient";
 import { ApiStateSchema, queryInit, useQuery } from "../../../lib/modules/query";
 
@@ -10,4 +11,10 @@ const logoutQuery = async () => {
   return null;
 }
 
-export const useLogout = () => useQuery({path: {queryPath: 'api.logout.query', dataPath: 'api.me.data'}, query: logoutQuery})
+export const useLogout = () => {
+  const logout = useQuery({path: {queryPath: 'api.logout.query', dataPath: 'api.me.data'}, query: logoutQuery});
+  return async () => {
+    await router.push('/');
+    await logout();
+  }
+}
