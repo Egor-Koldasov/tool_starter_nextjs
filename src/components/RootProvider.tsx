@@ -1,7 +1,8 @@
 import { mergeDeepRight } from "ramda";
 import { ReactNode, useState } from "react";
-import { initState, rootContext } from "../state/state-root";
-import { RootStateUpdate } from "../state/state-update";
+import { rootContext } from "../state/rootContext";
+import { initState } from "../state/initState";
+import { RootStateUpdate } from "../state/useUpdateModule";
 
 export type RootProviderProps = {
   initState?: RootStateUpdate

@@ -42,7 +42,6 @@ export type CallApiOptions<Data extends object, Result> = {
 export const callApi = async <Data extends object, Result>(options: CallApiOptions<Data, Result>) => {
   const method = options.method || 'get';
   const result = await apiClient(options.ctx)[method](apiUrl(options.path), options.data);
-  console.log('123', result)
   if (options.schema) {
     const parsedResult = await options.schema.validate(result.data);
     return parsedResult;

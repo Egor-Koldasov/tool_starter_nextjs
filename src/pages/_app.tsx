@@ -3,7 +3,7 @@ import RootProvider from '../components/RootProvider';
 import { AppProps as NextAppProps } from 'next/dist/shared/lib/router/router';
 import { ComponentType } from 'react';
 import PageLoader from '../components/PageLoader';
-import { RootStateUpdate } from '../state/state-update';
+import { RootStateUpdate } from '../state/useUpdateModule';
 
 export type PageProps = {
   initState?: RootStateUpdate

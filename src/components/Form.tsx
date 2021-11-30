@@ -1,12 +1,13 @@
 import classNames from "classnames";
 import { Formik, FormikConfig, FormikValues, Form as FormikForm, FormikHelpers } from "formik";
 import { ComponentType, HTMLProps, PropsWithChildren, Ref } from "react";
+import { Promisable } from "type-fest";
 import { Data, QueryHookResult } from "../lib/modules/query";
 
 export type FormProps<Values extends FormikValues> = Omit<FormikConfig<Values>, 'onSubmit'> & PropsWithChildren<{
   FormEl?: ComponentType
   resetOnSubmit?: boolean
-  onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promise<QueryHookResult<Data>>
+  onSubmit: (values: Values, helpers: FormikHelpers<Values>) => Promisable<QueryHookResult<Data>>
 }>
 
 

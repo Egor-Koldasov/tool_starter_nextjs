@@ -1,8 +1,8 @@
 import { GetServerSidePropsContext } from "next";
 import { lensPath, set } from "ramda";
 import { Get } from "type-fest"
-import { RootState } from "../../state/state-root"
-import { RootStateUpdate, useUpdateModule } from "../../state/state-update"
+import { RootState } from "../../state/rootContext"
+import { RootStateUpdate, useUpdateModule } from "../../state/useUpdateModule"
 import { isApiError } from "../apiClient";
 import { logError } from "../log";
 import { FilteredPaths } from "../types/FilteredPaths"
@@ -94,7 +94,6 @@ export const useQuery =
           updateQuery({loading: true});
           const data = await options.query(...args);
           updateQuery({loading: false, loaded: true, error: null});
-          console.log('data', data)
           if (updateData && data !== undefined) updateData(data); // https://github.com/microsoft/TypeScript/issues/46915
           return {success: true, data}
         } catch (error) {

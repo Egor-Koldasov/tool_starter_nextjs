@@ -1,6 +1,6 @@
 import { ComponentType, useEffect, useState } from "react";
 import { PageProps } from "../pages/_app";
-import { useUpdateRootState } from "../state/state-update";
+import { useUpdateRootState } from "../state/useUpdateModule";
 
 export interface PageLoaderProps {
   pageProps: PageProps,

@@ -2,11 +2,10 @@ import { ComponentType } from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
-import { useSelectorPath } from "../../state/state-update";
+import { useSelectorPath } from "../../state/useSelector";
 import { useToggleNav } from "../../state/modules/nav";
 import { useLogout } from "../../state/modules/api/logout";
 import styled from "styled-components";
-
 
 const useIsActive = () => {
   const router = useRouter();

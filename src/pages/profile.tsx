@@ -2,7 +2,7 @@ import Head from "next/head";
 import { ContainerStyled } from ".";
 import Page from "../components/layout/Page";
 import { ssrRequireLogin } from "../state/modules/api/me";
-import { useSelectorPath } from "../state/state-update";
+import { useSelectorPath } from "../state/useSelector";
 
 export const getServerSideProps = ssrRequireLogin;
 

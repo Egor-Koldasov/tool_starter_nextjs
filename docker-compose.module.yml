@@ -14,3 +14,5 @@ services:
       - ./tsconfig.json:/app/tsconfig.json
       - ./globals.d.ts:/app/globals.d.ts
       - ./.env.development:/app/.env.development
+      - ./jest.config.ts:/app/jest.config.ts
+      - ./babel.config.js:/app/babel.config.js

@@ -2,27 +2,13 @@ import lensPath from "ramda/src/lensPath";
 import mergeDeepRight from "ramda/src/mergeDeepRight";
 import set from "ramda/src/set";
 import { Get } from "type-fest";
-import { useContextSelector } from "use-context-selector";
-import get from "../lib/data/get";
 import { PartialDeep } from "../lib/types/PartialDeep";
 import { Paths } from "../lib/types/Paths";
-import { rootContext, RootContextValue, RootState, RootStateSchema, SetRootState } from "./state-root";
+import { useSelector } from "./useSelector";
+import { RootState, RootStateSchema, SetRootState } from "./rootContext";
 
 export type StateUpdate<ModuleState> = PartialDeep<ModuleState>;
 export type RootStateUpdate = StateUpdate<RootStateSchema>;
-
-const contextNullError = () => new Error('Cannot use context with null value');
-export const useSelector = <Selection>(selector: ((state: RootContextValue) => Selection)) => {
-  const nullableSelector = (state: RootContextValue | null) => {
-    if (!state) throw contextNullError();
-    return selector(state);
-  }
-  return useContextSelector(rootContext, nullableSelector);
-}
-
-export const useSelectorPath = <Path extends Paths<RootState>>(path: Path): Get<RootState, Path> => {
-  return useSelector(([state]) => get(state, path));
-}
 
 export function mergeRootState(setState: SetRootState, update: RootStateUpdate): void {
   return setState((state) => mergeDeepRight(state, update));

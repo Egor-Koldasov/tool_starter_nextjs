@@ -1,4 +1,5 @@
-import { useSelectorPath, useUpdateModule } from "../state-update";
+import { useUpdateModule } from "../useUpdateModule";
+import { useSelectorPath } from "../useSelector";
 
 export const navInit = {
   open: false,
