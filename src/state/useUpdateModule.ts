@@ -6,6 +6,7 @@ import { PartialDeep } from "../lib/types/PartialDeep";
 import { Paths } from "../lib/types/Paths";
 import { useSelector } from "./useSelector";
 import { RootState, RootStateSchema, SetRootState } from "./rootContext";
+import { debug } from "../lib/log";
 
 export type StateUpdate<ModuleState> = PartialDeep<ModuleState>;
 export type RootStateUpdate = StateUpdate<RootStateSchema>;
@@ -36,6 +37,7 @@ export const useUpdateModule = <Path extends Paths<RootState>, ModuleState exten
   const updateState = useUpdateRootState();
   const updateModule = (update: StateUpdate<ModuleState>) => {
     const rootUpdate: RootStateUpdate = set(lensPath(path.split('.')), update as PartialDeep<ModuleState>, {});
+    debug('rootUpdate', JSON.stringify(rootUpdate, null, 2));
     return updateState(rootUpdate);
   }
   return updateModule;
