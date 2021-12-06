@@ -5,14 +5,12 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import { querySelectorRequire } from './lib/querySelectorRequire';
 import userEvent from '@testing-library/user-event';
-import { debug } from '../lib/log';
 import { loginError, loginSuccess, meNull, meSuccess } from './lib/mock/api/user';
 
 jest.mock('axios/lib/defaults', () => require('./lib/mock/axiosDefaults').default)
 const mockAxios = new MockAdapter(axios);
 
-
-describe(`Login Page`, () => {
+describe(`Login page`, () => {
   let email: HTMLInputElement;
   let password: HTMLInputElement;
   let submit: HTMLButtonElement;
