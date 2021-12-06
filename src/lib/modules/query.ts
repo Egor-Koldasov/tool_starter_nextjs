@@ -107,9 +107,9 @@ export const useQuery =
 
 export const ssrQuery =
   <DataPath extends DataPaths>
-  (options: UseQueryOptions<DataPath, [GetServerSidePropsContext]>) => {
+  (options: UseQueryOptions<DataPath, [GetServerSidePropsContext | undefined]>) => {
     const dataPath: DataPaths = typeof options.path === 'string' ? `${options.path}.data` : options.path.dataPath;
-    return async (ctx: GetServerSidePropsContext) => {
+    return async (ctx?: GetServerSidePropsContext) => {
       const data = await options.query(ctx);
       const stateUpdate: RootStateUpdate = set(lensPath(dataPath.split('.')), data, {});
       return { props: { initState: stateUpdate } };
@@ -117,7 +117,7 @@ export const ssrQuery =
   }
 
 export const makeStateQueries =
-  <DataPath extends DataPaths> (options: UseQueryOptions<DataPath, [GetServerSidePropsContext]>) => {
+  <DataPath extends DataPaths> (options: UseQueryOptions<DataPath, [GetServerSidePropsContext | undefined]>) => {
     return {
       useQuery: () => useQuery(options),
       ssrQuery: ssrQuery(options),

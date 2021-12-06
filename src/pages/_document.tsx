@@ -3,10 +3,10 @@ import { ServerStyleSheet } from 'styled-components';
 import { ReactNode } from "react";
 
 interface ExtendedDocumentProps extends DocumentProps {
-  styleTags: ReactNode
+  styleTags?: ReactNode
 }
 
-class DocumentWithApollo extends Document<ExtendedDocumentProps> {
+class DocumentExtended extends Document<ExtendedDocumentProps> {
   constructor(props: ExtendedDocumentProps) {
     super(props);
   }
@@ -36,13 +36,10 @@ class DocumentWithApollo extends Document<ExtendedDocumentProps> {
   }
 }
 
-export default DocumentWithApollo;
+export default DocumentExtended;
 
 /*
   References:
-  Apollo:
-  https://gist.github.com/Tylerian/16d48e5850b407ba9e3654e17d334c1e
-  https://github.com/shshaw/next-apollo-ssr/blob/main/pages/refetch.js
   Styled-components
   https://dev.to/aprietof/nextjs--styled-components-the-really-simple-guide----101c
 */

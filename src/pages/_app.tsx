@@ -15,7 +15,7 @@ export interface AppProps extends NextAppProps {
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <RootProvider initState={pageProps.initState}>
+    <RootProvider initState={pageProps?.initState}>
       <PageLoader {...{Component, pageProps}} />
     </RootProvider>
   )
