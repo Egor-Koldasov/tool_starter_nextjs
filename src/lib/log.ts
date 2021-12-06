@@ -1,7 +1,8 @@
 import config from "./config";
 
 export enum LogLvl {
-  CRITICAL = 1,
+  SILENT = 1,
+  CRITICAL,
   ERROR,
   WARNING,
   INFO,

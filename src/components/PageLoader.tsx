@@ -12,7 +12,6 @@ export default function PageLoader(props: PageLoaderProps) {
   const updateRootState = useUpdateRootState();
   useEffect(() => {
     if (ActiveComponent !== props.Component) {
-      console.log('effect', props.pageProps.initState)
       if (props.pageProps.initState) updateRootState(props.pageProps.initState);
       setActiveComponent(() => props.Component);
     }

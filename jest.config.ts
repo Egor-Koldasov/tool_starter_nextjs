@@ -54,7 +54,7 @@ export default {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-  // globalSetup: "./src/test/globalSetup.ts",
+  globalSetup: "./src/test/lib/globalSetup.ts",
 
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: "./src/test/globalTeardown.ts",
@@ -158,8 +158,6 @@ export default {
   //   "/node_modules/"
   // ],
 
-  // The regexp pattern or array of patterns that Jest uses to detect test files
-  testRegex: [],
 
   // This option allows the use of a custom results processor
   // testResultsProcessor: undefined,
@@ -186,7 +184,9 @@ export default {
   // unmockedModulePathPatterns: undefined,
 
   // Indicates whether each individual test should be reported during the run
-  verbose: true,
+  verbose: false,
+  // The regexp pattern or array of patterns that Jest uses to detect test files
+  testRegex: [],
 
   // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
   // watchPathIgnorePatterns: [],
