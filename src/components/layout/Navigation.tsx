@@ -38,7 +38,7 @@ const Navigation = (props: NavigationProps) => {
   const toggleNav = useToggleNav();
   const navOpen = useSelectorPath('nav.open');
   return (
-    <NavigationStyled className={cn("navbar container-fluid navbar-dark bg-primary", props.className)}>
+    <NavigationStyled className={cn("navbar container-fluid navbar-dark bg-primary navbar-expand-lg", props.className)}>
       <button
         className="navbar-toggler"
         type="button"
@@ -74,13 +74,13 @@ const AuthNav = () => {
   const user = useSelectorPath('api.me.data');
   if (user) {
     return (
-      <div className="ms-auto">
+      <div className="ms-auto order-lg-1">
         <Logout />
       </div>
     );
   }
   return (
-    <div className="ms-auto">
+    <div className="ms-auto order-lg-1">
       <Link href="/login"><a className={cn("btn btn-link text-light d-none d-md-inline-block me-1")}>Login</a></Link>
       <Link href="/signup"><a className={cn("btn btn-outline-light")}>Sign Up</a></Link>
     </div>
