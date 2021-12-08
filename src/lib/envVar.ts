@@ -2,7 +2,7 @@
 export const requireVar = (name: string): string => {
   const env = process.env[name];
   if (env === undefined) {
-    const serverVarOnClient = name.startsWith('NEXT_PUBLIC_') && typeof window !== undefined;
+    const serverVarOnClient = !name.startsWith('NEXT_PUBLIC_') && typeof window !== undefined;
     if (!serverVarOnClient) throw new Error(`Environment variable "${name}" is not set`);
     return '';
   }
