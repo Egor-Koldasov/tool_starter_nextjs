@@ -46,7 +46,7 @@ const Navigation = (props: NavigationProps) => {
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <Link href="/"><div className="navbar-brand ps-3">Tool Starter</div></Link>
+      <Link href="/"><a className="navbar-brand ps-3">Tool Starter</a></Link>
       <AuthNav />
       <div className={cn("collapse navbar-collapse", {show: navOpen})} id="navbarToggler">
         <ul className="navbar-nav">
