@@ -7,3 +7,6 @@ export const meSuccess = (mockAxios: MockAdapter, user: User = defaultTestUser) 
 export const defaultTestUser = {id: 1, email: 'user@test.com'};
 export const loginSuccess = (mockAxios: MockAdapter, user: User = defaultTestUser) => mockAxios.onPost().reply(200, JSON.stringify({user}))
 export const loginError = (mockAxios: MockAdapter, error: string) => mockAxios.onPost().reply(400, JSON.stringify({message: error}))
+
+export const signupSuccess = loginSuccess;
+export const signupError = loginError;

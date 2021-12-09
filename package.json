@@ -12,7 +12,8 @@
     "ts": "tsc --noEmit --incremental --preserveWatchOutput",
     "ts:watch": "yarn ts --watch",
     "test": "docker-compose run --rm nextjs npm run test_in",
-    "test_in": "node --trace-warnings --async-stack-traces node_modules/.bin/jest"
+    "test_in": "node --trace-warnings --async-stack-traces node_modules/.bin/jest",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@loadable/component": "^5.14.1",
@@ -47,6 +48,7 @@
     "axios-mock-adapter": "^1.20.0",
     "babel-jest": "^27.4.2",
     "babel-plugin-styled-components": "^2.0.2",
+    "husky": "^7.0.4",
     "jest": "^27.4.2",
     "jest-css-modules-transform": "^4.3.0",
     "next-page-tester": "^0.30.0",
