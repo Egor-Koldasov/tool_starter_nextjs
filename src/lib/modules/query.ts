@@ -32,30 +32,30 @@ export const queryInit = () => ({
   data: null,
 })
 
-export type QueryPaths = FilteredPaths<RootState, Query>
-export type DataPaths = FilteredPaths<RootState, Data>
-export type ResourcePaths = FilteredPaths<RootState, ApiState<object>>
+export type QueryPath = FilteredPaths<RootState, Query>
+export type DataPath = FilteredPaths<RootState, Data>
+export type ResourcePath = FilteredPaths<RootState, ApiState<object>>
 
-type ResourcePathSplit = {queryPath: QueryPaths, dataPath?: DataPaths}
-type ResourcePath = ResourcePaths | ResourcePathSplit;
-type SplitResourcePath<Path extends ResourcePath> =
+type ResourcePathSplit = {queryPath: QueryPath, dataPath?: DataPath}
+type ResourcePathOption = ResourcePath | ResourcePathSplit;
+type SplitResourcePath<Path extends ResourcePathOption> =
   Path extends 'string' ? {queryPath: `${Path}.query`, dataPath: `${Path}.data`} :
     Path extends ResourcePathSplit ? Path :
       never;
 
-const splitResourcePath = (path: ResourcePath): ResourcePathSplit => {
+const splitResourcePath = (path: ResourcePathOption): ResourcePathSplit => {
   if (typeof path === 'string') return {queryPath: `${path}.query`, dataPath: `${path}.data`};
   return path;
 }
 
 
-type QueryResult<DataPath extends DataPaths | undefined> = DataPath extends DataPaths ? Get<RootState, DataPath> : void;
-type UseQueryOptions<DataPath extends DataPaths | undefined, QueryArgs extends any[]> = {
-  path: {queryPath: QueryPaths, dataPath: DataPath} | ResourcePaths
-  query: (...args: QueryArgs) => Promise<QueryResult<DataPath>>
+type QueryResult<QueryDataPath extends DataPath | undefined> = QueryDataPath extends DataPath ? Get<RootState, QueryDataPath> : void;
+type UseQueryOptions<QueryDataPath extends DataPath | undefined, QueryArgs extends any[]> = {
+  path: {queryPath: QueryPath, dataPath: QueryDataPath} | ResourcePath
+  query: (...args: QueryArgs) => Promise<QueryResult<QueryDataPath>>
 }
-type SsrQueryOptions<DataPath extends DataPaths | undefined, QueryArgs extends any[]> = UseQueryOptions<DataPath, [GetServerSidePropsContext]> & {
-  path: {dataPath: DataPath} | ResourcePaths
+type SsrQueryOptions<QueryDataPath extends DataPath | undefined, QueryArgs extends any[]> = UseQueryOptions<QueryDataPath, [GetServerSidePropsContext]> & {
+  path: {dataPath: QueryDataPath} | ResourcePath
 }
 
 const wrapError = (error: unknown): Error => {
@@ -78,17 +78,17 @@ export type QueryHookResult<Data> = {success: true, data: Data} | {success: fals
 
 export const useQuery =
   <
-    DataPath extends DataPaths | undefined,
+    QueryDataPath extends DataPath | undefined,
     QueryArgs extends any[],
   >
-  (options: UseQueryOptions<DataPath, QueryArgs>) => {
+  (options: UseQueryOptions<QueryDataPath, QueryArgs>) => {
       const path = splitResourcePath(options.path);
-      const updateQuery = useUpdateModule<QueryPaths, Get<RootState, QueryPaths>>(path.queryPath);
+      const updateQuery = useUpdateModule<QueryPath, Get<RootState, QueryPath>>(path.queryPath);
       const updateData =
         path.dataPath ?
           useUpdateModule<typeof path.dataPath, Get<RootState, typeof path.dataPath>>(path.dataPath) :
           null;
-      type Data = QueryResult<DataPath>;
+      type Data = QueryResult<QueryDataPath>;
       return async (...args: QueryArgs): Promise<QueryHookResult<Data>> => {
         try {
           updateQuery({loading: true});
@@ -106,9 +106,9 @@ export const useQuery =
   }
 
 export const ssrQuery =
-  <DataPath extends DataPaths>
-  (options: UseQueryOptions<DataPath, [GetServerSidePropsContext | undefined]>) => {
-    const dataPath: DataPaths = typeof options.path === 'string' ? `${options.path}.data` : options.path.dataPath;
+  <QueryDataPath extends DataPath>
+  (options: UseQueryOptions<QueryDataPath, [GetServerSidePropsContext | undefined]>) => {
+    const dataPath: DataPath = typeof options.path === 'string' ? `${options.path}.data` : options.path.dataPath;
     return async (ctx?: GetServerSidePropsContext) => {
       const data = await options.query(ctx);
       const stateUpdate: RootStateUpdate = set(lensPath(dataPath.split('.')), data, {});
@@ -117,7 +117,7 @@ export const ssrQuery =
   }
 
 export const makeStateQueries =
-  <DataPath extends DataPaths> (options: UseQueryOptions<DataPath, [GetServerSidePropsContext | undefined]>) => {
+  <QueryDataPath extends DataPath> (options: UseQueryOptions<QueryDataPath, [GetServerSidePropsContext | undefined]>) => {
     return {
       useQuery: () => useQuery(options),
       ssrQuery: ssrQuery(options),

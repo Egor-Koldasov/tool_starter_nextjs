@@ -37,6 +37,7 @@ export type NavigationProps = {
 const Navigation = (props: NavigationProps) => {
   const toggleNav = useToggleNav();
   const navOpen = useSelectorPath('nav.open');
+  const user = useSelectorPath('api.me.data');
   return (
     <NavigationStyled className={cn("navbar container-fluid navbar-dark bg-primary navbar-expand-lg", props.className)}>
       <button
@@ -50,7 +51,7 @@ const Navigation = (props: NavigationProps) => {
       <AuthNav />
       <div className={cn("collapse navbar-collapse", {show: navOpen})} id="navbarToggler">
         <ul className="navbar-nav">
-          <NavItem href="/profile">Profile</NavItem>
+          {user && <NavItem href="/profile">Profile</NavItem>}
           <NavItem href="/">About</NavItem>
         </ul>
       </div>

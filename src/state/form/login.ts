@@ -5,9 +5,9 @@ export const loginFormSchema = object({
   password: string().required(),
 }).required()
 
-export type LoginForm = Asserts<typeof loginFormSchema>
+export type LoginFormValues = Asserts<typeof loginFormSchema>
 
-export const loginFormInit: LoginForm = {
+export const loginFormInit: LoginFormValues = {
   email: '',
   password: '',
 };

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { ReactNode } from "react";
 import styled from "styled-components";
 import { parentHeight } from "../../lib/styles/parentHeight";
@@ -27,6 +28,8 @@ const PageDiv = styled.div<PageStyles>`
 interface PageProps {
   children: ReactNode
   styles?: PageStyles
+  className?: string
+  contentClassName?: string
 }
 
 export const defaultPageStyles: PageStyles = {
@@ -35,9 +38,11 @@ export const defaultPageStyles: PageStyles = {
 export default function Page(props: PageProps) {
   const pageStyles = {...defaultPageStyles, ...(props.styles || {})};
   return (
-    <PageDiv {...pageStyles}>
+    <PageDiv {...pageStyles} className={classNames(props.className)}>
       <Navigation />
-      <PageContent>{props.children}</PageContent>
+      <PageContent className={classNames(props.contentClassName)}>
+        {props.children}
+      </PageContent>
     </PageDiv>
   )
 }

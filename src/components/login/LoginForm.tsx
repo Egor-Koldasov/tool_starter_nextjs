@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { ScreenBP } from "../../lib/styles/ScreenBP";
 import { loginFormInit, loginFormSchema } from "../../state/form/login";
 import { useLogin } from "../../state/modules/api/login";
-import Form, { DefaultForm } from "../Form";
+import Form, { DefaultForm } from "../form/Form";
 
-const LoginFormStyled = styled(DefaultForm)`
+export const LoginFormStyled = styled(DefaultForm)`
   && {
     max-width: ${ScreenBP.md}px
   }

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import LabeledInput from '../components/form/LabeledInput';
 import RootProvider from '../components/RootProvider';
-import Form from '../components/Form';
+import Form from '../components/form/Form';
 import SubmitButton from '../components/form/SubmitButton';
 
 test('LabeledInput basics', async () => {
