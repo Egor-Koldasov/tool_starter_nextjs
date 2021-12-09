@@ -1,1 +1,0 @@
-build: NEXT_PUBLIC_API_HOST=tool-starter-api.herokuapp.com npm run build

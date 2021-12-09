@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev & yarn ts:watch",
     "build": "next build",
+    "heroku-postbuild": "NEXT_PUBLIC_API_HOST=tool-starter-api.herokuapp.com npm run build",
     "start": "next start",
     "rebuild": "docker-compose stop nextjs && docker-compose up -d --build nextjs",
     "codegen": "graphql-codegen --config codegen.yml",
