@@ -1,19 +1,17 @@
 
-export const requireVar = (name: string): string => {
-  const env = process.env[name];
-  if (env === undefined) {
+export const requireVar = (envVar: string | undefined, name: string): string => {
+  if (envVar === undefined) {
     const serverVarOnClient = !name.startsWith('NEXT_PUBLIC_') && typeof window !== undefined;
     if (!serverVarOnClient) throw new Error(`Environment variable "${name}" is not set`);
     return '';
   }
-  return env;
+  return envVar;
 }
-export const stringVar = (name: string, defaultVal?: string): string => {
+export const stringVar = (envVar: string | undefined, name: string, defaultVal?: string): string => {
   if (defaultVal === undefined) {
-    return requireVar(name);
+    return requireVar(envVar, name);
   }
-  const env = process.env[name];
-  return env !== undefined ? env : defaultVal;
+  return envVar !== undefined ? envVar : defaultVal;
 }
 
 const stringVarToNumber = <DefaultVal>(envVar: string, defaultVal: DefaultVal): number | DefaultVal => {
@@ -24,9 +22,9 @@ const stringVarToNumber = <DefaultVal>(envVar: string, defaultVal: DefaultVal): 
   return falseNumber;
 }
 
-export const numberVar = (name: string, defaultVal?: number): number => {
+export const numberVar = (envVar: string | undefined, name: string, defaultVal?: number): number => {
   if (defaultVal === undefined) {
-    const number = stringVarToNumber(requireVar(name), undefined);
+    const number = stringVarToNumber(requireVar(envVar, name), undefined);
     if (number === undefined) throw new Error(`Environment variable ${name} is not a valid number`);
     return number;
   }
@@ -34,9 +32,9 @@ export const numberVar = (name: string, defaultVal?: number): number => {
   return env ? stringVarToNumber(env, defaultVal) : defaultVal;
 }
 
-export const booleanVar = (name: string, defaultVal?: boolean): boolean => {
+export const booleanVar = (envVar: string | undefined, name: string, defaultVal?: boolean): boolean => {
   if (defaultVal === undefined) {
-    const stringVar = requireVar(name);
+    const stringVar = requireVar(envVar, name);
     if (stringVar !== 'FALSE' && stringVar !== 'TRUE') {
       throw new Error(`Environment variable ${name} should be either TRUE or FALSE`);
     }
