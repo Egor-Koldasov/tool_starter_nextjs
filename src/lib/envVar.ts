@@ -28,8 +28,7 @@ export const numberVar = (envVar: string | undefined, name: string, defaultVal?:
     if (number === undefined) throw new Error(`Environment variable ${name} is not a valid number`);
     return number;
   }
-  const env = process.env[name];
-  return env ? stringVarToNumber(env, defaultVal) : defaultVal;
+  return envVar ? stringVarToNumber(envVar, defaultVal) : defaultVal;
 }
 
 export const booleanVar = (envVar: string | undefined, name: string, defaultVal?: boolean): boolean => {
@@ -40,6 +39,5 @@ export const booleanVar = (envVar: string | undefined, name: string, defaultVal?
     }
     return stringVar === 'TRUE';
   }
-  const env = process.env[name];
-  return defaultVal === true ? env === 'FALSE' : defaultVal === false;
+  return defaultVal === true ? envVar !== 'FALSE' : defaultVal === false;
 }
