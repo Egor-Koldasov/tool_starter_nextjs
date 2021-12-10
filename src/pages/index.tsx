@@ -19,7 +19,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ContainerStyled>
-        <h1 className="display-1">
+        <h1 className="display-1 px-5">
           Welcome to the Tool Starter!
         </h1>
       </ContainerStyled>

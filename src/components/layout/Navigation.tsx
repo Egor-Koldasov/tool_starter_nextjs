@@ -28,7 +28,7 @@ const NavItem: ComponentType<NavItemProps> = (props) => {
 }
 
 export const NavigationStyled = styled.div`
-
+  background-color: rgba(255, 255, 255, .5);
 `
 
 export type NavigationProps = {
@@ -39,15 +39,15 @@ const Navigation = (props: NavigationProps) => {
   const navOpen = useSelectorPath('nav.open');
   const user = useSelectorPath('api.me.data');
   return (
-    <NavigationStyled className={cn("navbar container-fluid navbar-dark bg-primary navbar-expand-lg", props.className)}>
+    <NavigationStyled className={cn("navbar container-fluid navbar-expand-lg border-primary navbar-light", props.className)}>
       <button
-        className="navbar-toggler"
+        className={cn("navbar-toggler", {open: navOpen})}
         type="button"
         onClick={toggleNav}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
-      <Link href="/"><a className="navbar-brand ps-3">Tool Starter</a></Link>
+      <Link href="/"><a className="navbar-brand">Tool Starter</a></Link>
       <AuthNav />
       <div className={cn("collapse navbar-collapse", {show: navOpen})} id="navbarToggler">
         <ul className="navbar-nav">
@@ -63,7 +63,7 @@ const Logout = () => {
   const logout = useLogout();
   return (
     <span
-      className={cn("btn btn-link text-light me-1")}
+      className={cn("btn btn-link me-1")}
       onClick={logout}
     >
       Logout
@@ -73,6 +73,8 @@ const Logout = () => {
 
 const AuthNav = () => {
   const user = useSelectorPath('api.me.data');
+  const isActive = useIsActive();
+  const isSignUp = isActive('/signup');
   if (user) {
     return (
       <div className="ms-auto order-lg-1">
@@ -82,8 +84,22 @@ const AuthNav = () => {
   }
   return (
     <div className="ms-auto order-lg-1">
-      <Link href="/login"><a className={cn("btn btn-link text-light d-none d-md-inline-block me-1")}>Login</a></Link>
-      <Link href="/signup"><a className={cn("btn btn-outline-light")}>Sign Up</a></Link>
+      <Link href="/login">
+        <a className={cn(
+          "btn btn-link d-md-inline-block me-1",
+          {'d-none': !isSignUp}
+        )}>
+          Login
+        </a>
+      </Link>
+      <Link href="/signup">
+        <a className={cn(
+          "btn btn-primary d-md-inline-block",
+          {'d-none': isSignUp}
+        )}>
+          Sign Up
+        </a>
+      </Link>
     </div>
   )
 }
